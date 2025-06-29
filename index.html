@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Myntra Price Trends</title>
+<style>
+body{margin:0;font-family:"Georgia","Times New Roman",serif;background:#faf7f2;background:radial-gradient(circle at top,rgba(38,70,83,0.02),#faf7f2 80%);color:#333;line-height:1.4}
+nav{position:sticky;top:0;background:#faf7f2;padding:.5rem;border-bottom:1px solid #ddd;font-family:"NYTFranklin","Helvetica Neue",Arial,sans-serif;z-index:1}
+nav a{margin-right:1rem;text-decoration:none;color:#264653}
+section{padding:1rem 0}
+h2{font-family:"NYTFranklin","Helvetica Neue",Arial,sans-serif;margin:0 1rem 0.25rem}
+p.dek{margin:0 1rem 1rem;font-size:.9rem}
+.chart{margin:0 1rem;opacity:0;transform:translateY(20px);transition:opacity .4s ease,transform .4s ease}
+.chart.is-visible{opacity:1;transform:none}
+svg{width:100%;height:auto;font-family:"Georgia","Times New Roman",serif;color:#333}
+.axis path,.axis line{stroke:#888;stroke-width:.5}
+.bar{fill:#bbb}
+.accent-indigo{fill:#264653}
+.accent-mehendi{fill:#606c38}
+.accent-marigold{fill:#e76f51}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+<nav id="menu">
+<a href="#sec1">Colours</a>
+<a href="#sec2">Gender Prices</a>
+<a href="#sec3">Buzzword Premiums</a>
+<a href="#sec4">Brands</a>
+<a href="#sec5">Sleeves</a>
+<a href="#sec6">Print vs Plain</a>
+<a href="#sec7">Fabric</a>
+<a href="#sec8">Tags</a>
+</nav>
+<section id="sec1" class="story-section">
+<h2>Top Colours by Gender</h2>
+<p class="dek">Blue leads in both menswear and womenswear.</p>
+<div class="chart" id="chart1"></div>
+<noscript>
+<table><tr><th>colour</th> <th>men</th> <th>women</th></tr>
+<tr><td>Blue</td> <td>1571</td> <td>1071</td></tr>
+<tr><td>Black</td> <td>700</td> <td>655</td></tr>
+<tr><td>Red</td> <td>347</td> <td>833</td></tr>
+<tr><td>Green</td> <td>297</td> <td>390</td></tr>
+<tr><td>White</td> <td>335</td> <td>296</td></tr>
+<tr><td>Grey</td> <td>373</td> <td>184</td></tr>
+<tr><td>Brown</td> <td>219</td> <td>151</td></tr>
+<tr><td>Pink</td> <td>53</td> <td>258</td></tr>
+<tr><td>Yellow</td> <td>95</td> <td>193</td></tr>
+<tr><td>Gold</td> <td>19</td> <td>197</td></tr>
+</table>
+</noscript>
+</section>
+<section id="sec2" class="story-section">
+<h2>Price by Gender</h2>
+<p class="dek">Menswear commands the highest median prices.</p>
+<div class="chart" id="chart2"></div>
+<noscript>
+<table><tr><th>gender</th> <th>median</th> <th>q1</th> <th>q3</th> <th>whiskMin</th> <th>whiskMax</th></tr>
+<tr><td>Boys</td> <td>719.0</td> <td>559.0</td> <td>959.0</td> <td>224.0</td> <td>1559.0</td></tr>
+<tr><td>Girls</td> <td>766.0</td> <td>599.0</td> <td>1211.5</td> <td>239.0</td> <td>2130.25</td></tr>
+<tr><td>Men</td> <td>1034.0</td> <td>699.0</td> <td>1749.0</td> <td>132.0</td> <td>3324.0</td></tr>
+<tr><td>Unisex</td> <td>921.5</td> <td>650.75</td> <td>1849.5</td> <td>90.0</td> <td>3647.625</td></tr>
+<tr><td>Unisex Kids</td> <td>995.0</td> <td>899.0</td> <td>1125.0</td> <td>560.0</td> <td>1464.0</td></tr>
+<tr><td>Women</td> <td>899.0</td> <td>629.0</td> <td>1439.0</td> <td>134.0</td> <td>2654.0</td></tr>
+</table>
+</noscript>
+</section>
+<section id="sec3" class="story-section">
+<h2>Buzzword Price Premiums</h2>
+<p class="dek">Marketing terms like "premium" and "linen" fetch higher prices.</p>
+<div class="chart" id="chart3"></div>
+<noscript>
+<table><tr><th>buzzword</th> <th>pctPremium</th></tr>
+<tr><td>handloom</td> <td>8.15</td></tr>
+<tr><td>organic</td> <td>-34.89</td></tr>
+<tr><td>premium</td> <td>55.87</td></tr>
+<tr><td>slim</td> <td>12.39</td></tr>
+<tr><td>sustainable</td> <td>-13.15</td></tr>
+<tr><td>embroidered</td> <td>14.02</td></tr>
+<tr><td>cotton</td> <td>-13.15</td></tr>
+<tr><td>silk</td> <td>32.28</td></tr>
+<tr><td>linen</td> <td>41.74</td></tr>
+</table>
+</noscript>
+</section>
+<section id="sec4" class="story-section">
+<h2>Median Price of High-Volume Brands</h2>
+<p class="dek">Luxury watchmaker Titan tops the price chart.</p>
+<div class="chart" id="chart4" style="overflow-x:auto"></div>
+<noscript>
+<table><tr><th>brand</th> <th>medianPrice</th></tr>
+<tr><td>Titan</td> <td>5596.0</td></tr>
+<tr><td>Geox</td> <td>4249.0</td></tr>
+<tr><td>Calvin Klein Jeans</td> <td>3299.0</td></tr>
+<tr><td>Levis</td> <td>2999.0</td></tr>
+<tr><td>Puma</td> <td>2469.0</td></tr>
+<tr><td>SHISEIDO</td> <td>2125.0</td></tr>
+<tr><td>Lavie</td> <td>1999.0</td></tr>
+<tr><td>Fastrack</td> <td>1756.0</td></tr>
+<tr><td>Sonata</td> <td>1675.0</td></tr>
+<tr><td>PARFAIT</td> <td>1609.0</td></tr>
+</table>
+</noscript>
+</section>
+<section id="sec5" class="story-section">
+<h2>Price by Sleeve Length</h2>
+<p class="dek">Sleeveless styles carry slightly higher medians.</p>
+<div class="chart" id="chart5"></div>
+<noscript>
+<table><tr><th>sleeve</th> <th>median</th> <th>q1</th> <th>q3</th> <th>whiskMin</th> <th>whiskMax</th></tr>
+<tr><td>Sleeveless</td> <td>1169.0</td> <td>1011.25</td> <td>1811.5</td> <td>799.0</td> <td>1999.0</td></tr>
+<tr><td>Short Sleeves</td> <td>1299.0</td> <td>1024.0</td> <td>1299.0</td> <td>699.0</td> <td>1499.0</td></tr>
+<tr><td>Long Sleeves</td> <td>949.0</td> <td>699.0</td> <td>1999.0</td> <td>499.0</td> <td>1999.0</td></tr>
+<tr><td>Full Sleeves</td> <td>879.0</td> <td>879.0</td> <td>879.0</td> <td>879.0</td> <td>879.0</td></tr>
+</table>
+</noscript>
+</section>
+<section id="sec6" class="story-section">
+<h2>Price: Plain vs Printed</h2>
+<p class="dek">Printed items tend to cost slightly less.</p>
+<div class="chart" id="chart6"></div>
+<noscript>
+<table><tr><th>style</th> <th>median</th> <th>q1</th> <th>q3</th> <th>whiskMin</th> <th>whiskMax</th></tr>
+<tr><td>Printed</td> <td>749.0</td> <td>569.0</td> <td>1149.0</td> <td>194.0</td> <td>2019.0</td></tr>
+<tr><td>Plain</td> <td>949.0</td> <td>664.0</td> <td>1499.0</td> <td>153.0</td> <td>2751.5</td></tr>
+</table>
+</noscript>
+</section>
+<section id="sec7" class="story-section">
+<h2>Price Across Fabric Types</h2>
+<p class="dek">Wool and leather command premium prices.</p>
+<div class="chart" id="chart7"></div>
+<noscript>
+<table><tr><th>fabric</th> <th>median</th> <th>q1</th> <th>q3</th> <th>whiskMin</th> <th>whiskMax</th></tr>
+<tr><td>Cotton</td> <td>799.0</td> <td>607.5</td> <td>1197.5</td> <td>91.0</td> <td>2082.5</td></tr>
+<tr><td>Polyester</td> <td>1499.0</td> <td>1249.0</td> <td>2099.0</td> <td>279.0</td> <td>3374.0</td></tr>
+<tr><td>Silk</td> <td>1217.0</td> <td>598.75</td> <td>2216.0</td> <td>150.0</td> <td>4641.875</td></tr>
+<tr><td>Linen</td> <td>1304.0</td> <td>1064.0</td> <td>2014.0</td> <td>643.0</td> <td>3439.0</td></tr>
+<tr><td>Wool</td> <td>3768.0</td> <td>1999.0</td> <td>9748.0</td> <td>899.0</td> <td>21371.5</td></tr>
+<tr><td>Denim</td> <td>1264.0</td> <td>849.0</td> <td>1899.0</td> <td>374.0</td> <td>3474.0</td></tr>
+<tr><td>Leather</td> <td>2685.0</td> <td>1352.5</td> <td>3999.0</td> <td>449.0</td> <td>7968.75</td></tr>
+</table>
+</noscript>
+</section>
+<section id="sec8" class="story-section">
+<h2>Gender Tag Distribution</h2>
+<p class="dek">Women's items form the largest share of the catalog.</p>
+<div class="chart" id="chart8"></div>
+<noscript>
+<table><tr><th>tag</th> <th>count</th></tr>
+<tr><td>Women</td> <td>5126</td></tr>
+<tr><td>Men</td> <td>4591</td></tr>
+<tr><td>Unisex</td> <td>1188</td></tr>
+<tr><td>Boys</td> <td>1100</td></tr>
+<tr><td>Girls</td> <td>440</td></tr>
+<tr><td>Unisex Kids</td> <td>46</td></tr>
+</table>
+</noscript>
+</section>
+
+<!-- JSON DATA -->
+<script id="coloursByGender" type="application/json">
+[  {    "colour": "Blue",    "men": 1571,    "women": 1071  },  {    "colour": "Black",    "men": 700,    "women": 655  },  {    "colour": "Red",    "men": 347,    "women": 833  },  {    "colour": "Green",    "men": 297,    "women": 390  },  {    "colour": "White",    "men": 335,    "women": 296  },  {    "colour": "Grey",    "men": 373,    "women": 184  },  {    "colour": "Brown",    "men": 219,    "women": 151  },  {    "colour": "Pink",    "men": 53,    "women": 258  },  {    "colour": "Yellow",    "men": 95,    "women": 193  },  {    "colour": "Gold",    "men": 19,    "women": 197  }]
+</script>
+<script id="priceByGender" type="application/json">
+[  {    "gender": "Boys",    "median": 719.0,    "q1": 559.0,    "q3": 959.0,    "whiskMin": 224.0,    "whiskMax": 1559.0  },  {    "gender": "Girls",    "median": 766.0,    "q1": 599.0,    "q3": 1211.5,    "whiskMin": 239.0,    "whiskMax": 2130.25  },  {    "gender": "Men",    "median": 1034.0,    "q1": 699.0,    "q3": 1749.0,    "whiskMin": 132.0,    "whiskMax": 3324.0  },  {    "gender": "Unisex",    "median": 921.5,    "q1": 650.75,    "q3": 1849.5,    "whiskMin": 90.0,    "whiskMax": 3647.625  },  {    "gender": "Unisex Kids",    "median": 995.0,    "q1": 899.0,    "q3": 1125.0,    "whiskMin": 560.0,    "whiskMax": 1464.0  },  {    "gender": "Women",    "median": 899.0,    "q1": 629.0,    "q3": 1439.0,    "whiskMin": 134.0,    "whiskMax": 2654.0  }]
+</script>
+<script id="buzzwordPremiums" type="application/json">
+[  {    "buzzword": "handloom",    "pctPremium": 8.15  },  {    "buzzword": "organic",    "pctPremium": -34.89  },  {    "buzzword": "premium",    "pctPremium": 55.87  },  {    "buzzword": "slim",    "pctPremium": 12.39  },  {    "buzzword": "sustainable",    "pctPremium": -13.15  },  {    "buzzword": "embroidered",    "pctPremium": 14.02  },  {    "buzzword": "cotton",    "pctPremium": -13.15  },  {    "buzzword": "silk",    "pctPremium": 32.28  },  {    "buzzword": "linen",    "pctPremium": 41.74  }]
+</script>
+<script id="brandMedianPrice" type="application/json">
+[  {    "brand": "Titan",    "medianPrice": 5596.0  },  {    "brand": "Geox",    "medianPrice": 4249.0  },  {    "brand": "Calvin Klein Jeans",    "medianPrice": 3299.0  },  {    "brand": "Levis",    "medianPrice": 2999.0  },  {    "brand": "Puma",    "medianPrice": 2469.0  },  {    "brand": "SHISEIDO",    "medianPrice": 2125.0  },  {    "brand": "Lavie",    "medianPrice": 1999.0  },  {    "brand": "Fastrack",    "medianPrice": 1756.0  },  {    "brand": "Sonata",    "medianPrice": 1675.0  },  {    "brand": "PARFAIT",    "medianPrice": 1609.0  },  {    "brand": "WROGN",    "medianPrice": 1559.0  },  {    "brand": "Louis Philippe",    "medianPrice": 1514.0  },  {    "brand": "Van Heusen Woman",    "medianPrice": 1494.0  },  {    "brand": "Basics",    "medianPrice": 1469.0  },  {    "brand": "GIORDANO",    "medianPrice": 1466.0  },  {    "brand": "GAP",    "medianPrice": 1299.0  },  {    "brand": "HERE&NOW",    "medianPrice": 1299.0  },  {    "brand": "Raymond",    "medianPrice": 1299.0  },  {    "brand": "Marks & Spencer",    "medianPrice": 1299.0  },  {    "brand": "Mast & Harbour",    "medianPrice": 1294.0  },  {    "brand": "ELLE",    "medianPrice": 1287.0  },  {    "brand": "Tommy Hilfiger",    "medianPrice": 1229.0  },  {    "brand": "Vishudh",    "medianPrice": 1049.0  },  {    "brand": "Mufti",    "medianPrice": 1049.0  },  {    "brand": "ColorPlus",    "medianPrice": 1034.0  },  {    "brand": "W",    "medianPrice": 999.0  },  {    "brand": "Park Avenue",    "medianPrice": 999.0  },  {    "brand": "Soumya",    "medianPrice": 939.0  },  {    "brand": "Indian Terrain",    "medianPrice": 919.0  },  {    "brand": "U.S. Polo Assn. Kids",    "medianPrice": 899.0  },  {    "brand": "XYXX",    "medianPrice": 889.0  },  {    "brand": "GNIST",    "medianPrice": 849.0  },  {    "brand": "Roadster",    "medianPrice": 839.0  },  {    "brand": "Pepe Jeans",    "medianPrice": 799.0  },  {    "brand": "Flying Machine",    "medianPrice": 799.0  },  {    "brand": "Karmic Vision",    "medianPrice": 791.0  },  {    "brand": "Sonari",    "medianPrice": 780.0  },  {    "brand": "DressBerry",    "medianPrice": 779.0  },  {    "brand": "AURELIA",    "medianPrice": 759.0  },  {    "brand": "Parx",    "medianPrice": 759.0  },  {    "brand": "CODE by Lifestyle",    "medianPrice": 749.0  },  {    "brand": "Soie",    "medianPrice": 720.0  },  {    "brand": "Gini and Jony",    "medianPrice": 719.0  },  {    "brand": "SEJ by Nisha Gupta",    "medianPrice": 699.0  },  {    "brand": "Archies",    "medianPrice": 699.0  },  {    "brand": "Alcis",    "medianPrice": 699.0  },  {    "brand": "Tokyo Talkies",    "medianPrice": 699.0  },  {    "brand": "HIGHLANDER",    "medianPrice": 699.0  },  {    "brand": "Inc 5",    "medianPrice": 696.0  },  {    "brand": "Global Desi",    "medianPrice": 674.0  },  {    "brand": "Carlton London",    "medianPrice": 645.0  },  {    "brand": "Cortina",    "medianPrice": 629.0  },  {    "brand": "AccessHer",    "medianPrice": 600.0  },  {    "brand": "Next Look",    "medianPrice": 599.0  },  {    "brand": "United Colors of Benetton",    "medianPrice": 599.0  },  {    "brand": "Chkokko",    "medianPrice": 554.0  },  {    "brand": "Newport",    "medianPrice": 479.0  },  {    "brand": "Veni Vidi Vici",    "medianPrice": 468.0  }]
+</script>
+<script id="sleeveLengthPrice" type="application/json">
+[  {    "sleeve": "Sleeveless",    "median": 1169.0,    "q1": 1011.25,    "q3": 1811.5,    "whiskMin": 799.0,    "whiskMax": 1999.0  },  {    "sleeve": "Short Sleeves",    "median": 1299.0,    "q1": 1024.0,    "q3": 1299.0,    "whiskMin": 699.0,    "whiskMax": 1499.0  },  {    "sleeve": "Long Sleeves",    "median": 949.0,    "q1": 699.0,    "q3": 1999.0,    "whiskMin": 499.0,    "whiskMax": 1999.0  },  {    "sleeve": "Full Sleeves",    "median": 879.0,    "q1": 879.0,    "q3": 879.0,    "whiskMin": 879.0,    "whiskMax": 879.0  }]
+</script>
+<script id="printVsPlainPrice" type="application/json">
+[  {    "style": "Printed",    "median": 749.0,    "q1": 569.0,    "q3": 1149.0,    "whiskMin": 194.0,    "whiskMax": 2019.0  },  {    "style": "Plain",    "median": 949.0,    "q1": 664.0,    "q3": 1499.0,    "whiskMin": 153.0,    "whiskMax": 2751.5  }]
+</script>
+<script id="fabricPrice" type="application/json">
+[  {    "fabric": "Cotton",    "median": 799.0,    "q1": 607.5,    "q3": 1197.5,    "whiskMin": 91.0,    "whiskMax": 2082.5  },  {    "fabric": "Polyester",    "median": 1499.0,    "q1": 1249.0,    "q3": 2099.0,    "whiskMin": 279.0,    "whiskMax": 3374.0  },  {    "fabric": "Silk",    "median": 1217.0,    "q1": 598.75,    "q3": 2216.0,    "whiskMin": 150.0,    "whiskMax": 4641.875  },  {    "fabric": "Linen",    "median": 1304.0,    "q1": 1064.0,    "q3": 2014.0,    "whiskMin": 643.0,    "whiskMax": 3439.0  },  {    "fabric": "Wool",    "median": 3768.0,    "q1": 1999.0,    "q3": 9748.0,    "whiskMin": 899.0,    "whiskMax": 21371.5  },  {    "fabric": "Denim",    "median": 1264.0,    "q1": 849.0,    "q3": 1899.0,    "whiskMin": 374.0,    "whiskMax": 3474.0  },  {    "fabric": "Leather",    "median": 2685.0,    "q1": 1352.5,    "q3": 3999.0,    "whiskMin": 449.0,    "whiskMax": 7968.75  }]
+</script>
+<script id="genderTagCounts" type="application/json">
+[  {    "tag": "Women",    "count": 5126  },  {    "tag": "Men",    "count": 4591  },  {    "tag": "Unisex",    "count": 1188  },  {    "tag": "Boys",    "count": 1100  },  {    "tag": "Girls",    "count": 440  },  {    "tag": "Unisex Kids",    "count": 46  }]
+</script>
+
+<script>
+const fmt = d3.format(",d");
+function boxPlot(data, sel, accent){
+ const margin={t:10,r:20,b:20,l:40}, w=400, h=250;
+ const svg=d3.select(sel).append("svg").attr("viewBox",`0 0 ${w} ${h}`);
+ svg.append("title").text("Price distribution");
+ svg.append("desc").text("Box plot of prices");
+ const x=d3.scaleBand().domain(data.map(d=>d.label)).range([margin.l,w-margin.r]).padding(0.4);
+ const y=d3.scaleLinear().domain([0,d3.max(data,d=>d.whiskMax)]).nice().range([h-margin.b,margin.t]);
+ const g=svg.append("g");
+ g.append("g").attr("class","axis").attr("transform",`translate(0,${h-margin.b})`).call(d3.axisBottom(x));
+ g.append("g").attr("class","axis").attr("transform",`translate(${margin.l},0)`).call(d3.axisLeft(y).ticks(5,".0f"));
+ const box=g.selectAll("g.box").data(data).enter().append("g").attr("class","box").attr("transform",d=>`translate(${x(d.label)},0)`);
+ box.append("line").attr("y1",d=>y(d.whiskMin)).attr("y2",d=>y(d.whiskMax)).attr("x1",x.bandwidth()/2).attr("x2",x.bandwidth()/2).attr("stroke","#888");
+ box.append("rect").attr("y",d=>y(d.q3)).attr("height",d=>y(d.q1)-y(d.q3)).attr("width",x.bandwidth()).attr("fill","#eee").attr("stroke","#555");
+ box.append("line").attr("y1",d=>y(d.median)).attr("y2",d=>y(d.median)).attr("x1",0).attr("x2",x.bandwidth()).attr("stroke",accent||"#555");
+}
+function clusteredBars(data, sel){
+ const margin={t:10,r:20,b:20,l:40}, w=400, h=250;
+ const keys=['men','women'];
+ const svg=d3.select(sel).append("svg").attr("viewBox",`0 0 ${w} ${h}`);
+ svg.append("title").text("Colour popularity by gender");
+ svg.append("desc").text("Bars compare counts for men and women");
+ const x0=d3.scaleBand().domain(data.map(d=>d.colour)).range([margin.l,w-margin.r]).paddingInner(0.1);
+ const x1=d3.scaleBand().domain(keys).range([0,x0.bandwidth()]).padding(0.05);
+ const y=d3.scaleLinear().domain([0,d3.max(data,d=>Math.max(d.men,d.women))]).nice().range([h-margin.b,margin.t]);
+ svg.append("g").attr("class","axis").attr("transform",`translate(0,${h-margin.b})`).call(d3.axisBottom(x0));
+ svg.append("g").attr("class","axis").attr("transform",`translate(${margin.l},0)`).call(d3.axisLeft(y));
+ const g=svg.append("g");
+ g.selectAll("g").data(data).enter().append("g").attr("transform",d=>`translate(${x0(d.colour)},0)`).selectAll("rect").data(d=>keys.map(k=>({k,v:d[k]}))).enter().append("rect").attr("x",d=>x1(d.k)).attr("y",d=>y(d.v)).attr("width",x1.bandwidth()).attr("height",d=>y(0)-y(d.v)).attr("class","bar");
+}
+function divergingBars(data, sel){
+ const margin={t:10,r:20,b:20,l:60}, w=400, h=250;
+ const svg=d3.select(sel).append("svg").attr("viewBox",`0 0 ${w} ${h}`);
+ svg.append("title").text("Buzzword price premiums");
+ svg.append("desc").text("Percent difference from median price");
+ const x=d3.scaleLinear().domain([d3.min(data,d=>d.pctPremium),d3.max(data,d=>d.pctPremium)]).range([margin.l,w-margin.r]);
+ const y=d3.scaleBand().domain(data.map(d=>d.buzzword)).range([margin.t,h-margin.b]).padding(0.2);
+ svg.append("g").attr("class","axis").attr("transform",`translate(0,${h-margin.b})`).call(d3.axisBottom(x).tickFormat(d=>d+"%"));
+ svg.append("g").attr("class","axis").attr("transform",`translate(${margin.l},0)`).call(d3.axisLeft(y));
+ svg.selectAll("rect").data(data).enter().append("rect").attr("y",d=>y(d.buzzword)).attr("x",d=>x(Math.min(0,d.pctPremium))).attr("height",y.bandwidth()).attr("width",d=>Math.abs(x(d.pctPremium)-x(0))).attr("class",d=>d.pctPremium>=0?"accent-indigo":"accent-mehendi");
+}
+function horizontalBars(data, sel){
+ const margin={t:10,r:20,b:20,l:120}, w=500, h=20*data.length+margin.t+margin.b;
+ const svg=d3.select(sel).append("svg").attr("viewBox",`0 0 ${w} ${h}`);
+ svg.append("title").text("Median price by brand");
+ svg.append("desc").text("Horizontal bar chart of brand prices");
+ const y=d3.scaleBand().domain(data.map(d=>d.brand)).range([margin.t,h-margin.b]).padding(0.1);
+ const x=d3.scaleLinear().domain([0,d3.max(data,d=>d.medianPrice)]).range([margin.l,w-margin.r]);
+ svg.append("g").attr("class","axis").attr("transform",`translate(0,${h-margin.b})`).call(d3.axisBottom(x));
+ svg.append("g").attr("class","axis").attr("transform",`translate(${margin.l},0)`).call(d3.axisLeft(y));
+ svg.selectAll("rect").data(data).enter().append("rect").attr("x",x(0)).attr("y",d=>y(d.brand)).attr("width",d=>x(d.medianPrice)-x(0)).attr("height",y.bandwidth()).attr("class","accent-indigo");
+}
+function simpleBars(data, sel, accent){
+ const margin={t:10,r:20,b:20,l:40}, w=400, h=250;
+ const svg=d3.select(sel).append("svg").attr("viewBox",`0 0 ${w} ${h}`);
+ svg.append("title").text("Counts");
+ svg.append("desc").text("Bar chart of counts");
+ const x=d3.scaleBand().domain(data.map(d=>d.label)).range([margin.l,w-margin.r]).padding(0.2);
+ const y=d3.scaleLinear().domain([0,d3.max(data,d=>d.value)]).nice().range([h-margin.b,margin.t]);
+ svg.append("g").attr("class","axis").attr("transform",`translate(0,${h-margin.b})`).call(d3.axisBottom(x));
+ svg.append("g").attr("class","axis").attr("transform",`translate(${margin.l},0)`).call(d3.axisLeft(y));
+ svg.selectAll("rect").data(data).enter().append("rect").attr("x",d=>x(d.label)).attr("y",d=>y(d.value)).attr("width",x.bandwidth()).attr("height",d=>y(0)-y(d.value)).attr("class",accent);
+}
+function observe(){
+ const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('is-visible');});},{threshold:.1});
+ document.querySelectorAll('.chart').forEach(el=>io.observe(el));
+}
+function init(){
+ const c1=JSON.parse(document.getElementById('coloursByGender').textContent);
+ clusteredBars(c1,'#chart1');
+ const c2=JSON.parse(document.getElementById('priceByGender').textContent).map(d=>({label:d.gender,...d}));
+ boxPlot(c2,'#chart2');
+ const c3=JSON.parse(document.getElementById('buzzwordPremiums').textContent);
+ divergingBars(c3,'#chart3');
+ const c4=JSON.parse(document.getElementById('brandMedianPrice').textContent).slice(0,20);
+ horizontalBars(c4,'#chart4');
+ const c5=JSON.parse(document.getElementById('sleeveLengthPrice').textContent).map(d=>({label:d.sleeve,...d}));
+ boxPlot(c5,'#chart5');
+ const c6=JSON.parse(document.getElementById('printVsPlainPrice').textContent).map(d=>({label:d.style,...d}));
+ boxPlot(c6,'#chart6');
+ const c7=JSON.parse(document.getElementById('fabricPrice').textContent).map(d=>({label:d.fabric,...d}));
+ boxPlot(c7,'#chart7');
+ const c8=JSON.parse(document.getElementById('genderTagCounts').textContent).map(d=>({label:d.tag,value:d.count}));
+ simpleBars(c8,'#chart8','accent-marigold');
+ observe();
+}
+document.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
